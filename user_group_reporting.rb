@@ -13,6 +13,7 @@ module UserGroupReporting
     # just add to this array when adding more group types
     group_types = [ "admins", "students", "teachers" ]
     output_hash = create_group_types(group_types)
+    # parse the array to iterate and sort
     arr = str.split(" ")
     arr.each_with_index do |word, i|
       if i.even?
@@ -40,7 +41,16 @@ module UserGroupReporting
       arr.unshift(group_type)
     end
     h
-  end 
+  end
+
+  def self.convert(input)
+    h = sort_group_types(input)
+    str = ""
+    h.each_value do |arr|
+      str += arr.join(",") + "\n"
+    end
+    str
+  end  
 end
 
 input = %q(
@@ -57,5 +67,5 @@ input = %q(
 )
 
 
-output = UserGroupReporting.sort_group_types(input)
-p output
+output = UserGroupReporting.convert(input)
+puts output
