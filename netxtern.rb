@@ -16,27 +16,20 @@ end
 
 def output(input)
 	arr = convert(input)
-	routes = arr[0]
+	links = arr[0]	
 	abs_url_indices = arr[1]
-	arr = []
-	routes.each_with_index do |str, i|
+	arr = []	
+	links.each_with_index do |str, i|
+		commands = [ "BACK", "FORWARD"]
+		p "#{i}: #{str}"
 		if abs_url_indices.include?(i)
-			arr << str			
+			abs = str
+			arr << str
+		elsif commands.include?(str)
+			arr << str
 		else
-			# add new commands to this array, ie: "REFRESH", "STOP"
-			commands = [ "BACK", "FORWARD" ]			
-			if str == ""				
-				next
-			elsif commands.include?(str)
-			else
-				str[0] != "/" ? str.prepend("/") : str
-				abs_url_indices.each do |num|						
-					if i > num
-						str = routes[num] + str		
-					end
-				end				
-				arr << str
-			end
+			str[0] != "/" ? str.prepend("/") : str			
+			arr << str
 		end
 	end
 	puts arr
@@ -44,8 +37,7 @@ end
 
 
 
-input = %q(
-https://google.com
+input = %q(https://google.com
 /search
 query
 term/kittens
