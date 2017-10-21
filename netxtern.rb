@@ -14,48 +14,25 @@ def convert(input)
 	[arr, abs_url_indices]
 end
 
-def type?(str)	
-	commands = [ "BACK", "FORWARD"]
-	if str.match(ABS_URL)
-		type = 0
-	elsif str[0] == "/"
-		type = 1	
-	elsif commands.include?(str)
-		type = 2
-	else
-		type = 3
-	end
-	type
-end
-
 def output(input)
+	commands = [ "BACK", "FORWARD"]
 	arr = convert(input)
 	links = arr[0]	
 	abs_url_indices = arr[1]
 	arr = []
 	browser_context = []
-	links.each_with_index do |str, i|
-		type = type?(str)		
-		# p "#{i}: #{str}"
-		if type == 0
+	links.each_with_index do |str, i|					
+		if str.match(ABS_URL)
 			arr[0] = str			
 			browser_context << arr[0]			
-		elsif type == 1			
+		elsif str[0] == "/"
 			arr[1] = arr[0] + str
 			# str = arr.grep(ABS_URL)[0] + str			
 			browser_context << arr[1]
-		elsif type == 2
-			# str = arr.grep(ABS_URL)[0] + links[i-2]
-			if str == "BACK"
-				browser_context << browser_context[-2]
-			elsif str == "FORWARD"
-				browser_context << browser_context[-2]
-			end			
+		elsif commands.include?(str)
+			browser_context << browser_context[-2]			
 		else
 			str.prepend("/")
-			p " >>>>"
-			p browser_context
-			p str
 			arr[2] = browser_context.last + str
 			browser_context << arr[2]
 		end
