@@ -3,7 +3,7 @@
 
 ABS_URL = /https:\/\/[A-Za-z0-9]+\.com/
 
-def convert(input)
+def convert_str(input)
 	arr = input.split("\n")
 	abs_url_indices = []
 	arr.each_with_index do |str, i|
@@ -14,9 +14,9 @@ def convert(input)
 	[arr, abs_url_indices]
 end
 
-def output(input)
+def set_browser_context(input)
 	commands = [ "BACK", "FORWARD"]
-	arr = convert(input)
+	arr = convert_str(input)
 	links = arr[0]	
 	abs_url_indices = arr[1]
 	arr = []
@@ -30,7 +30,7 @@ def output(input)
 			# str = arr.grep(ABS_URL)[0] + str			
 			browser_context << arr[1]
 		elsif commands.include?(str)
-			browser_context << browser_context[-2]			
+			browser_context << browser_context[-2]	
 		else
 			str.prepend("/")
 			arr[2] = browser_context.last + str
@@ -56,4 +56,4 @@ new
 )
 
 
-output(input)
+set_browser_context(input)
