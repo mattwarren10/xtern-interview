@@ -1,36 +1,29 @@
 
-
-
 ABS_URL = /https:\/\/[A-Za-z0-9]+\.com/
 
-def convert_str(input)
-	arr = input.split("\n")
-	abs_url_indices = []
-	arr.each_with_index do |str, i|
-		if str.match(ABS_URL)
-			abs_url_indices << i			
-		end		
-	end
-	[arr, abs_url_indices]
-end
-
 def set_browser_context(input)
+	# extract str to modify it
+	links = input.split("\n")
+	# add commands to this array, ie: "REFRESH" or "STOP"
 	commands = [ "BACK", "FORWARD"]
-	arr = convert_str(input)
-	links = arr[0]	
-	abs_url_indices = arr[1]
+	# tracks the type of href links
 	arr = []
+	# logs the final URL the browser
+	# visits after every operation
 	browser_context = []
-	links.each_with_index do |str, i|					
+	links.each_with_index do |str, i|
+		# absolute url			
 		if str.match(ABS_URL)
 			arr[0] = str			
-			browser_context << arr[0]			
+			browser_context << arr[0]
+		# absolute path
 		elsif str[0] == "/"
-			arr[1] = arr[0] + str
-			# str = arr.grep(ABS_URL)[0] + str			
+			arr[1] = arr[0] + str					
 			browser_context << arr[1]
+		# commands such as "BACK" or "FORWARD"
 		elsif commands.include?(str)
-			browser_context << browser_context[-2]	
+			browser_context << browser_context[-2]
+		# relative paths
 		else
 			str.prepend("/")
 			arr[2] = browser_context.last + str
