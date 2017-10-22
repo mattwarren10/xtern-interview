@@ -20,28 +20,35 @@ def set_browser_context(input)
 		# absolute url			
 		if str.match(ABS_URL)
 			current_href_links[:abs_url] = str			
-			browser_context << current_href_links[:abs_url]
+			browser_context << current_href_links[:abs_url]			
 		# absolute path
 		elsif str[0] == "/"
 			current_href_links[:abs_path] = current_href_links[:abs_url] + str					
-			browser_context << current_href_links[:abs_path]
+			browser_context << current_href_links[:abs_path]			
 		# commands such as "BACK" or "FORWARD"
 		elsif commands.include?(str)
 			back_clicks = 0
-			i.downto(0) do |n|				
+			forward_clicks = 0
+			i.downto(0) do |n|
 				if links[n] == "BACK"
-					back_clicks += 1				
+					back_clicks += 1
+				elsif links[n] == "FORWARD"
+					forward_clicks += 1					
 				end
 			end			
 			if !links[i-1].match(COMMANDS)
-				back_clicks = 1
-			end	
-			browser_context << browser_context[-2*back_clicks]
+				back_clicks = 1				
+			end
+			if str == "BACK"
+				browser_context << browser_context[-2*back_clicks]
+			else
+				browser_context << browser_context[-2*forward_clicks]
+			end
 		# relative paths
 		else
 			str.prepend("/")
 			current_href_links[:rel_path] = browser_context.last + str
-			browser_context << current_href_links[:rel_path]
+			browser_context << current_href_links[:rel_path]			
 		end
 	end	
 		puts browser_context
