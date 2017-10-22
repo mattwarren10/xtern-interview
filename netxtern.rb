@@ -1,5 +1,9 @@
 
 ABS_URL = /https:\/\/[A-Za-z0-9]+\.com/
+ABS_REL_PATH = /[A-Za-z0-9]+/
+ALL_LINKS = /(https:\/\/[A-Za-z0-9]+\.com)|([A-Za-z0-9]+)/
+BACK = /BACK/
+COMMANDS = /BACK|FORWARD/
 
 def set_browser_context(input)
 	# extract str to modify it
@@ -22,7 +26,17 @@ def set_browser_context(input)
 			browser_context << arr[1]
 		# commands such as "BACK" or "FORWARD"
 		elsif commands.include?(str)
-			browser_context << browser_context[-2]
+			p i
+			back_clicks = 0
+			i.downto(0) do |n|
+				if links[n] == "BACK"
+					back_clicks += 1				
+				end
+			end			
+			if !links[i-1].match(COMMANDS)
+				back_clicks = 1
+			end
+			browser_context << "#{browser_context[-2*back_clicks]} #{i}"		
 		# relative paths
 		else
 			str.prepend("/")
@@ -33,13 +47,17 @@ def set_browser_context(input)
 		puts browser_context
 end
 
-
-
 input = %q(https://google.com
 /search
 query
 term/kittens
 /calendar/today
+BACK
+BACK
+BACK
+FORWARD
+FORWARD
+FORWARD
 events/mine
 https://reddit.com
 r/kittens
@@ -48,5 +66,7 @@ FORWARD
 new
 )
 
-
 set_browser_context(input)
+
+
+
