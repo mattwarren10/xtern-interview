@@ -1,8 +1,5 @@
 
 ABS_URL = /https:\/\/[A-Za-z0-9]+\.com/
-ABS_REL_PATH = /[A-Za-z0-9]+/
-ALL_LINKS = /(https:\/\/[A-Za-z0-9]+\.com)|([A-Za-z0-9]+)/
-BACK = /BACK/
 COMMANDS = /BACK|FORWARD/
 
 def set_browser_context(input)
