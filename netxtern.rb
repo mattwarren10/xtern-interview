@@ -58,12 +58,6 @@ input = %q(https://google.com
 /search
 query
 term/kittens
-BACK
-BACK
-BACK
-FORWARD
-FORWARD
-FORWARD
 /calendar/today
 events/mine
 https://reddit.com
