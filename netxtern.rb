@@ -10,38 +10,38 @@ def set_browser_context(input)
 	links = input.split("\n")
 	# add commands to this array, ie: "REFRESH" or "STOP"
 	commands = [ "BACK", "FORWARD"]
-	# tracks the type of href links
-	arr = []
+	# tracks the type of href links. 
+	# 0: abs url, 1: abs path, 2: rel path
+	current_href_links = {}
+	back_clicks = 0
 	# logs the final URL the browser
 	# visits after every operation
 	browser_context = []
 	links.each_with_index do |str, i|
-		# absolute url			
-		if str.match(ABS_URL)
-			arr[0] = str			
-			browser_context << arr[0]
-		# absolute path
-		elsif str[0] == "/"
-			arr[1] = arr[0] + str					
-			browser_context << arr[1]
-		# commands such as "BACK" or "FORWARD"
-		elsif commands.include?(str)
-			p i
-			back_clicks = 0
-			i.downto(0) do |n|
+			i.downto(0) do |n|				
 				if links[n] == "BACK"
 					back_clicks += 1				
 				end
-			end			
-			if !links[i-1].match(COMMANDS)
-				back_clicks = 1
 			end
-			browser_context << "#{browser_context[-2*back_clicks]} #{i}"		
+		# absolute url			
+		if str.match(ABS_URL)
+			current_href_links[:abs_url] = str			
+			browser_context << current_href_links[:abs_url]
+		# absolute path
+		elsif str[0] == "/"
+			current_href_links[:abs_path] = current_href_links[:abs_url] + str					
+			browser_context << current_href_links[:abs_path]
+		# commands such as "BACK" or "FORWARD"
+		elsif commands.include?(str)			
+			if links[i-1].match(COMMANDS)
+				back_clicks = 1
+			end			
+			browser_context << browser_context[-2*back_clicks]
 		# relative paths
 		else
 			str.prepend("/")
-			arr[2] = browser_context.last + str
-			browser_context << arr[2]
+			current_href_links[:rel_path] = browser_context.last + str
+			browser_context << current_href_links[:rel_path]
 		end
 	end	
 		puts browser_context
@@ -52,12 +52,6 @@ input = %q(https://google.com
 query
 term/kittens
 /calendar/today
-BACK
-BACK
-BACK
-FORWARD
-FORWARD
-FORWARD
 events/mine
 https://reddit.com
 r/kittens
