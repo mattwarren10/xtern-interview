@@ -59,17 +59,10 @@ module UserGroupReporting
   end  
 end
 
-input = %q(
-  alan admins
-  beth students
-  charlie teachers
-  matt admins
-  zack teachers
-  admins david
-  teachers louis
-  students debra
-  caroline students
-  mark teachers
+input = %q(alan admins
+beth students
+charlie teachers
+david admins
 )
 
 
