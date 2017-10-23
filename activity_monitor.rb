@@ -1,9 +1,11 @@
 
-def processes(arr)
+def get_processes(arr)
 	started_processes = []
 	arr.each do |process|
+		# start the process
 		if !started_processes.include?(process)
 			started_processes << process
+		# end the process
 		else
 			started_processes.delete(process)
 		end
@@ -32,5 +34,5 @@ input2 = [
 					23
 				 ]
 
-processes(input)
-processes(input2)
+get_processes(input)
+get_processes(input2)
