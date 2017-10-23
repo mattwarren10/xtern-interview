@@ -7,12 +7,13 @@ def set_browser_context(input)
 	links = input.split("\n")
 	# add commands to this array, ie: "REFRESH" or "STOP"
 	commands = [ "BACK", "FORWARD"]
-	# tracks the type of href links. 
+	# tracks the type of href links by
 	# collecting each current abs url, abs path, rel path
 	current_href_links = {}
-	# logs the final URL the browser
+	# logs each URL the browser
 	# visits after every operation
 	browser_context = []
+	# iterate through the links to categorize them
 	links.each_with_index do |str, i|			
 		# absolute url			
 		if str.match(ABS_URL)
@@ -26,16 +27,21 @@ def set_browser_context(input)
 		elsif commands.include?(str)
 			back_clicks = 0
 			forward_clicks = 0
+			# collect the amount of BACK and
+			# FORWARD clicks in the log
 			i.downto(0) do |n|
 				if links[n] == "BACK"
 					back_clicks += 1
 				elsif links[n] == "FORWARD"
 					forward_clicks += 1					
 				end
-			end			
+			end
+			# when the previous operation
+			# does not equal BACK or FORWARD
 			if !links[i-1].match(COMMANDS)
 				back_clicks = 1				
 			end
+			# log the BACK or FORWARD operation
 			if str == "BACK"
 				browser_context << browser_context[-2*back_clicks]
 			else
