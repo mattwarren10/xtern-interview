@@ -32,17 +32,5 @@ input2 = [
 					23
 				 ]
 
-input3 = [
-					84,
-					34,
-					99,
-					99,
-					98,
-					103,
-					103
-				 ]
-
-
 processes(input)
 processes(input2)
-processes(input3)
