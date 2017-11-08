@@ -1,6 +1,5 @@
 
 ABS_URL = /https:\/\/[A-Za-z0-9]+\.com/
-COMMANDS = /BACK|FORWARD/
 
 def set_browser_context(input)
 	# extract str to modify it
@@ -35,11 +34,6 @@ def set_browser_context(input)
 				elsif links[n] == "FORWARD"
 					forward_clicks += 1					
 				end
-			end
-			# when the previous operation
-			# does not equal BACK or FORWARD
-			if !links[i-1].match(COMMANDS)
-				back_clicks = 1				
 			end
 			# log the BACK or FORWARD operation
 			if str == "BACK"
