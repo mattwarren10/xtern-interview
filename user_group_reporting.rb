@@ -1,7 +1,7 @@
 
 module UserGroupReporting
-  # simplifies the process when selecting the word when
-  # extracting users and groups
+  # we use a hash because it could be easier to 
+  # access in the future.
   def self.create_group_types(arr)
     group_types = {}
     arr.each do |type|
@@ -13,7 +13,10 @@ module UserGroupReporting
   def self.extract_users_and_groups(str)
     # just add to this array when adding more group types
     group_types = [ "admins", "students", "teachers" ]
-    output_hash = create_group_types(group_types)
+    # this hash will initially have a value
+    # of an array with the group type, ie: 'admins' in
+    # the first postition. we will add the names to each value.
+    unsorted_names = create_group_types(group_types)
     # parse the array to iterate and sort
     arr = str.split(" ")
     arr.each_with_index do |word, i|
@@ -21,19 +24,19 @@ module UserGroupReporting
         group_types.each do |group_type|
           if word == group_type
             # if it's even, we want the word after it
-            output_hash[group_type] << arr[i+1]
+            unsorted_names[group_type] << arr[i+1]
           end
         end
       else
         group_types.each do |group_type|
           if word == group_type
             # if it's odd, we want the word before it
-            output_hash[group_type] << arr[i-1]
+            unsorted_names[group_type] << arr[i-1]
           end
         end
       end
     end
-    output_hash
+    unsorted_names
   end
   
   def self.sort_group_types(input)
