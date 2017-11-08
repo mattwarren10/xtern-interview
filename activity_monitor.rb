@@ -17,22 +17,9 @@ def get_processes(arr)
 end
 
 
-input = [ 
-					36,
-					47,
-					58,
-					47,
-					36
-				]
+input = [36, 47, 58, 47, 36]
 
-input2 = [
-					12,
-					23,
-					34,
-					34,
-					12,
-					23
-				 ]
+input2 = [12, 23, 34, 34, 12, 23]
 
 get_processes(input)
 get_processes(input2)
