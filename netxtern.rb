@@ -28,7 +28,7 @@ def set_browser_context(input)
 			forward_clicks = 0
 			# collect the amount of BACK and
 			# FORWARD clicks in the log
-			i.downto(0) do |n|
+			0.upto(i) do |n|
 				if links[n] == "BACK"
 					back_clicks += 1
 				elsif links[n] == "FORWARD"
